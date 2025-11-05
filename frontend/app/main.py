@@ -9,15 +9,20 @@ from io import BytesIO
 import os
 
 app = Flask(__name__)
-BACKEND_URL = os.getenv('BACKEND_URL', 'http://backend:8000')
+# Usar esta línea para LOCAL
+# BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8000')
 
-@app.route('/')
-def index():
+# Usar esta línea en Docker
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://backend:8000') 
+                                                                                                                                                                                                                             
+
+@app.route('/')                                                     
+def index():                                                                
     return render_template('index.html')
 
 @app.route('/generar-pdf', methods=['POST'])
 def generar_pdf():
-    try:
+    try:                                                                                                        
         print(request.form)
         id_factura = request.form['id_factura']
         response = requests.get(f'{BACKEND_URL}/facturas/v1/{id_factura}')
